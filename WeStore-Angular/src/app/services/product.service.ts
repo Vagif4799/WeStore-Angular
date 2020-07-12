@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Product} from '../common/product';
-import {map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -10,19 +7,15 @@ import {map} from 'rxjs/operators';
 })
 export class ProductService {
 
+  readonly ROOT_URL = 'https://jsonplaceholder.typicode.com';
+  products: any;
 
-  constructor(private httpClient: HttpClient) { }
 
-  getProductList(theCategoryId: number): Observable<Product[]> {
+  constructor(private http: HttpClient) { }
 
-    const searchUrl = `http://localhost:8080/product/category?id=${theCategoryId}`;
-
-    return this.httpClient.get<GetResponse>('https://jsonplaceholder.typicode.com/posts').pipe(
-        map(response => response.products)
-      );
+  getPosts() {
+    this.products = this.http.get(this.ROOT_URL + '/posts');
+    return this.products;
   }
 }
 
-interface GetResponse {
-    products: Product[];
-}
