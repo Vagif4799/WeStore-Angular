@@ -12,16 +12,12 @@ export class ProductService {
   readonly PRODUCTS_URL = this.ROOT_URL + '/products';
   readonly CATEGORY_URL = this.ROOT_URL + '/productsCategory';
   readonly BY_CATEGORY_ID_URL = this.ROOT_URL + '/product/category';
+  readonly SEARCH_BY_NAME_URL = this.ROOT_URL + '/product/name';
   products: any;
   productCategories: any;
 
 
   constructor(private http: HttpClient) { }
-
-  getProducts() {
-    this.products = this.http.get(this.PRODUCTS_URL);
-    return this.products;
-  }
 
   getPostsByID(theCategoryID: number) {
   const BY_CATEGORY_URL = `${this.BY_CATEGORY_ID_URL}?id=${theCategoryID}`;
@@ -32,6 +28,11 @@ export class ProductService {
   getProductCategories() {
     this.productCategories = this.http.get(this.CATEGORY_URL);
     return this.productCategories;
+  }
+
+  searchProducts(theKeyword: string) {
+    this.products = this.http.get(`${this.SEARCH_BY_NAME_URL}?name=${theKeyword}`);
+    return this.products;
   }
 
 }
