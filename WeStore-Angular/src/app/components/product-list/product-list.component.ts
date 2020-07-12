@@ -2,45 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {ActivatedRoute} from '@angular/router';
 import {Product} from '../../common/product';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent {
 
-  products: Product[];
-  currentCategoryId: number;
+  readonly ROOT_URL = 'https://jsonplaceholder.typicode.com';
 
-  constructor(private productService: ProductService,
-              private route: ActivatedRoute) { }
+  products: any;
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(
-      () => {
-        this.listProducts();
-      }
-    );
+  constructor(private http: HttpClient) {
   }
 
-
-  listProducts() {
-
-    // check if "id" parameter is available
-    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-
-    if (hasCategoryId) {
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id');
-    } else {
-      this.currentCategoryId = 1;
-    }
-
-    this.productService.getProductList(this.currentCategoryId).subscribe(
-      data => {
-        this.products = data;
-      }
-    );
+  getPosts() {
+    this.products = this.http.get(this.ROOT_URL + '/posts');
   }
 
 }

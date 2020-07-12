@@ -10,7 +10,6 @@ import {map} from 'rxjs/operators';
 })
 export class ProductService {
 
-  private baseUrl = 'http://localhost:8080/products';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -18,7 +17,7 @@ export class ProductService {
 
     const searchUrl = `http://localhost:8080/product/category?id=${theCategoryId}`;
 
-    return this.httpClient.get<GetResponse>(searchUrl).pipe(
+    return this.httpClient.get<GetResponse>('https://jsonplaceholder.typicode.com/posts').pipe(
         map(response => response.products)
       );
   }
