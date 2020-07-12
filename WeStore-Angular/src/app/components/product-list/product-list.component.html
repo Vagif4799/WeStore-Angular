@@ -6,7 +6,7 @@
         <!-- loop over the collection of products -->
 <!--        <button (click)="getPosts()">Test IT</button>-->
 
-        <div *ngFor="let tempProduct of products | async" class="col-md-3">
+        <div *ngFor="let tempProduct of products" class="col-md-3">
           <div class="product-box">
             <img src="{{tempProduct.imageUrl}}" alt="product-image" class="img-responsive" />
             <h1>{{tempProduct.name}}</h1>

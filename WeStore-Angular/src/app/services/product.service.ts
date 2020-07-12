@@ -17,5 +17,12 @@ export class ProductService {
     this.products = this.http.get(this.ROOT_URL + '/posts');
     return this.products;
   }
+
+  getPostsByID(theCategoryID: number) {
+  const BY_CATEGORY_URL = `${this.ROOT_URL}/posts?id=${theCategoryID}`;
+  this.products = this.http.get(BY_CATEGORY_URL);
+  return this.products;
+  }
+
 }
 
