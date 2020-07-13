@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ProductCategory} from '../common/product-category';
+import {Product} from '../common/product';
+import {Observable} from 'rxjs';
 
 
 @Injectable({
@@ -9,13 +11,13 @@ import {ProductCategory} from '../common/product-category';
 export class ProductService {
 
   readonly ROOT_URL = 'http://localhost:8080';
-  readonly PRODUCTS_URL = this.ROOT_URL + '/products';
   readonly CATEGORY_URL = this.ROOT_URL + '/productsCategory';
   readonly BY_CATEGORY_ID_URL = this.ROOT_URL + '/product/category';
   readonly SEARCH_BY_NAME_URL = this.ROOT_URL + '/product/name';
+  readonly PRODUCT_BY_ID_URL = this.ROOT_URL + '/product';
+
   products: any;
   productCategories: any;
-
 
   constructor(private http: HttpClient) { }
 
@@ -33,6 +35,13 @@ export class ProductService {
   searchProducts(theKeyword: string) {
     this.products = this.http.get(`${this.SEARCH_BY_NAME_URL}?name=${theKeyword}`);
     return this.products;
+  }
+
+  getProduct(theProductId: number) {
+
+    const productURL = `${this.PRODUCT_BY_ID_URL}?id=${theProductId}`;
+    return this.http.get<Product>(productURL);
+
   }
 
 }
