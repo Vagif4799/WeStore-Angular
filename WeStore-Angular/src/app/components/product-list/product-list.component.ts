@@ -10,9 +10,15 @@ import {Product} from '../../common/product';
 })
 export class ProductListComponent implements OnInit{
 
-  products: Product[];
-  currentCategoryID: number;
-  searchMode: boolean;
+  products: Product[] = [];
+  currentCategoryID: number = 1;
+  previousCategoryID: number = 1;
+  searchMode: boolean = false;
+
+  // Pagination Fields
+  thePageNumber: number = 1;
+  thePageSize: number = 10;
+  theTotalElements: number = 0;
 
   constructor(private productService: ProductService, private route: ActivatedRoute) {
   }
@@ -61,11 +67,27 @@ export class ProductListComponent implements OnInit{
       this.currentCategoryID = 1;
     }
 
-    this.productService.getPostsByID(this.currentCategoryID).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+    if (this.previousCategoryID != this.currentCategoryID) {
+      this.thePageNumber = 1;
+    }
+
+    this.previousCategoryID = this.currentCategoryID;
+
+    console.log(`theCurrentCategoryID=${this.currentCategoryID}, thePageNumber=${this.thePageNumber}`);
+
+    this.productService.getProductListPaginate(this.thePageNumber-1,
+                                                        this.thePageSize,
+                                                        this.currentCategoryID)
+      .subscribe(this.processResult());
+
   }
 
+  private processResult() {
+    return data => {
+      this.products = data.content;
+      this.thePageNumber = data.pageable.pageNumber + 1;
+      this.thePageSize = data.pageable.pageSize;
+      this.theTotalElements = data.totalElements;
+    }
+  }
 }

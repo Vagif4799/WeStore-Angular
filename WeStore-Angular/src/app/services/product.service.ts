@@ -27,6 +27,14 @@ export class ProductService {
   return this.products;
   }
 
+  getProductListPaginate(thePage: number,
+                         thePageSize: number,
+                         theCategoryID: number) : Observable<GetResponseProducts> {
+    const BY_CATEGORY_URL = `${this.BY_CATEGORY_ID_URL}?id=${theCategoryID}` + `&page=${thePage}&size=${thePageSize}`;
+    this.products = this.http.get<GetResponseProducts>(BY_CATEGORY_URL);
+    return this.products;
+  }
+
   getProductCategories() {
     this.productCategories = this.http.get(this.CATEGORY_URL);
     return this.productCategories;
@@ -44,5 +52,16 @@ export class ProductService {
 
   }
 
+}
+
+interface GetResponseProducts {
+  content: {
+    products: Product;
+  },
+  pageable: {
+    pageSize: number,
+    pageNumber: number
+  },
+  totalElements: number
 }
 
