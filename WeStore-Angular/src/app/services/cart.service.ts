@@ -14,6 +14,7 @@ export class CartService {
   constructor() { }
 
   addToCart(theCartItem: CartItem) {
+
     let alreadyExistsInCart: boolean = false;
     let existingCartItem: CartItem = undefined;
 
@@ -38,6 +39,17 @@ export class CartService {
   }
 
   private computeCartTotals() {
-    //
+
+    let totalPriceValue: number = 0;
+    let totalQuantityValue: number = 0;
+
+    for (let currentCartItem of this.cartItems) {
+      totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
+      totalQuantityValue += currentCartItem.quantity;
+    }
+
+    this.totalPrice.next(totalPriceValue);
+    this.totalQuantity.next(totalQuantityValue);
+
   }
 }
