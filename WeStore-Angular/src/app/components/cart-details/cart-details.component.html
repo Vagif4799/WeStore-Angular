@@ -2,6 +2,7 @@
   <div class="section-content section-content-p30">
     <div class="container-fluid">
 
+      <div *ngIf="cartItems.length > 0">
       <table class="table table-bordered">
         <tr>
           <th width="20%">Product Image</th>
@@ -33,8 +34,12 @@
             <p>Total Price: {{totalPrice | currency: 'USD'}}</p>
           </td>
         </tr>
-
       </table>
+      </div>
+
+      <div *ngIf="cartItems.length == 0" class="alert alert-warning col-md-12">
+        Cart is empty :(
+      </div>
 
     </div>
   </div>
