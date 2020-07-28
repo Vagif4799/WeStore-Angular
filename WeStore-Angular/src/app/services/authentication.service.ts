@@ -45,4 +45,12 @@ export class AuthenticationService {
   getUserFromLocalCache(): User {
     return JSON.parse(localStorage.getItem('user'));
   }
+
+  loadToken(): void {
+    this.token = localStorage.getItem('token');
+  }
+
+  getToken(): string {
+    return this.token;
+  }
 }
