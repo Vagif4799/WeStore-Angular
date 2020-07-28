@@ -52,4 +52,7 @@ export class UserService {
     }
     return null;
   }
+
+  createUserFormData(): FormData {
+  }
 }
