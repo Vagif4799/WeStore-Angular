@@ -4,6 +4,7 @@ import {HttpClient, HttpErrorResponse, HttpEvent, HttpResponse} from '@angular/c
 import {Observable} from 'rxjs';
 import {User} from '../common/user';
 import {Form} from '@angular/forms';
+import {CustomHttpResponse} from '../common/custom-http-response';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class UserService {
     return this.http.post<User>(`${this.host}/user/update`, formData);
   }
 
-  resetPassword(email: string): Observable<any | HttpErrorResponse> {
-    return this.http.get(`${this.host}/user/resetPassword/${email}`);
+  resetPassword(email: string): Observable<CustomHttpResponse | HttpErrorResponse> {
+    return this.http.get<CustomHttpResponse>(`${this.host}/user/resetPassword/${email}`);
   }
 
   updateProfileImage(formData: FormData): Observable<HttpEvent<User> | HttpErrorResponse> {
@@ -38,8 +39,8 @@ export class UserService {
              });
   }
 
-  deleteUser(userId: number): Observable<any | HttpErrorResponse> {
-    return this.http.delete<any>(`${this.host}/user/delete/${userId}`);
+  deleteUser(userId: number): Observable<CustomHttpResponse | HttpErrorResponse> {
+    return this.http.delete<CustomHttpResponse>(`${this.host}/user/delete/${userId}`);
   }
 
   addUsersToLocalCache(users: User[]): void {
@@ -53,6 +54,18 @@ export class UserService {
     return null;
   }
 
-  createUserFormData(): FormData {
+  createUserFormData(loggedInUsername: string, user: User, profileImage: File): FormData {
+    const formData = new FormData();
+    formData.append('currentUsername', loggedInUsername);
+    formData.append('firstName', user.firstName);
+    formData.append('lastName', user.lastName);
+    formData.append('userName', user.userName);
+    formData.append('email', user.email);
+    formData.append('role', user.role);
+    formData.append('profileImage', profileImage);
+    formData.append('isActive', JSON.stringify(user.isActive));
+    formData.append('isNotLocked', JSON.stringify(user.isNotLocked));
+    formData.append('currentUsername', loggedInUsername);
+    return formData;
   }
 }

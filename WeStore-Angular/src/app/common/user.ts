@@ -1,17 +1,17 @@
 export class User {
-  private id: number;
-  private userId: string;
-  private  firstName: string;
-  private  lastName: string;
-  private  userName: string;
-  private  email: string;
-  private  profileImageUrl: string;
-  private  lastLoginDateDisplay: Date;
-  private  joinDate: Date;
-  private  role: string;
-  private  authorities: [];
-  private  isActive: boolean;
-  private  isNotLocked: boolean;
+  id: number;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  profileImageUrl: string;
+  lastLoginDateDisplay: Date;
+  joinDate: Date;
+  role: string;
+  authorities: [];
+  isActive: boolean;
+  isNotLocked: boolean;
 
   public User() {
   this.firstName = '';
