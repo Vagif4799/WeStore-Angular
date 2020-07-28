@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../common/user';
+import {Token} from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,10 @@ export class AuthenticationService {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     localStorage.removeItem('users');
+  }
+
+  saveToken(token: string): void {
+    this.token = token;
+    localStorage.setItem('token', token);
   }
 }
