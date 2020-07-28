@@ -37,4 +37,8 @@ export class UserService {
         observe: 'events'
              });
   }
+
+  deleteUser(userId: number): Observable<any | HttpErrorResponse> {
+    return this.http.delete<any>(`${this.host}/user/delete/${userId}`);
+  }
 }
