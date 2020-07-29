@@ -14,6 +14,7 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
 import {AuthenticationService} from './services/authentication.service';
 import {UserService} from './services/user.service';
 import {AuthInterceptor} from './interceptor/auth.interceptor';
+import {AuthenticationGuard} from './guard/authentication.guard';
 
 const routes: Routes = [
   {path: 'cart-details', component: CartDetailsComponent},
@@ -41,7 +42,7 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule
   ],
-  providers: [ProductService, AuthenticationService, UserService,
+  providers: [AuthenticationGuard,ProductService, AuthenticationService, UserService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
