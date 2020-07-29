@@ -4,13 +4,16 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import {RouterModule, Routes} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ProductService} from './services/product.service';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import {AuthenticationService} from './services/authentication.service';
+import {UserService} from './services/user.service';
+import {AuthInterceptor} from './interceptor/auth.interceptor';
 
 const routes: Routes = [
   {path: 'cart-details', component: CartDetailsComponent},
@@ -38,7 +41,8 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule
   ],
-  providers: [ProductService],
+  providers: [ProductService, AuthenticationService, UserService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
