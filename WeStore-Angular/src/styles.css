@@ -4,6 +4,11 @@
  * ----------------------------
  */
 
+@import "~angular-notifier/styles";
+
+
+
+
 *{
   margin:0;
   padding:0;
@@ -100,6 +105,41 @@ a,a:hover{
 }
 
 /*Layout Css*/
+
+td {
+  cursor: pointer;
+}
+.move-right {
+  position: absolute;
+  right: 0;
+}
+
+.move-left {
+  position: absolute;
+  left: 0;
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+
 .section-content-p35{
   padding:0 35px
 }

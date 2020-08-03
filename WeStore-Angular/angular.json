@@ -121,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "WeStore-Angular"
+    }
+  },
+  "defaultProject": "WeStore-Angular",
+  "cli": {
+    "analytics": "4f73c1e5-af02-477c-9df8-7b751e13fc73"
+  }
 }

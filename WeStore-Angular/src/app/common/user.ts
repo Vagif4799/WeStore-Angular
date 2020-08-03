@@ -12,6 +12,7 @@ export class User {
   authorities: [];
   isActive: boolean;
   isNotLocked: boolean;
+  password: string;
 
   public User() {
   this.firstName = '';
@@ -22,5 +23,6 @@ export class User {
   this.authorities = [];
   this.isActive = false;
   this.isNotLocked = false;
+  this.password = '';
 }
 }

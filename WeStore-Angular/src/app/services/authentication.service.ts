@@ -5,28 +5,24 @@ import {Observable} from 'rxjs';
 import {User} from '../common/user';
 import { JwtHelperService } from "@auth0/angular-jwt";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  host = environment.apiUrl;
+  public host = environment.apiUrl;
   private token: string;
   private loggedInUsername: string;
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  login(user: User): Observable<HttpResponse<any> | HttpErrorResponse> {
-    return this.http.post<HttpResponse<any> | HttpErrorResponse>
-    (`${this.host}/user/login`, user, {observe: 'response'});
+  public login(user: User): Observable<HttpResponse<User>> {
+    return this.http.post<User>(`http://localhost:8080/user/login`, user, { observe: 'response' });
   }
 
-  register(user: User): Observable<HttpResponse<User> | HttpErrorResponse> {
-    return this.http.post<HttpResponse<User> | HttpErrorResponse>
-    (`${this.host}/user/register`, user);
+  public register(user: User): Observable<User> {
+    return this.http.post<User>(`${this.host}/user/register`, user);
   }
 
-  logOut(): void {
+  public logOut(): void {
     this.token = null;
     this.loggedInUsername = null;
     localStorage.removeItem('user');
@@ -34,30 +30,30 @@ export class AuthenticationService {
     localStorage.removeItem('users');
   }
 
-  saveToken(token: string): void {
+  public saveToken(token: string): void {
     this.token = token;
     localStorage.setItem('token', token);
   }
 
-  addUserToLocalCache(user: User): void {
+  public addUserToLocalCache(user: User): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
-  getUserFromLocalCache(): User {
+  public getUserFromLocalCache(): User {
     return JSON.parse(localStorage.getItem('user'));
   }
 
-  loadToken(): void {
+  public loadToken(): void {
     this.token = localStorage.getItem('token');
   }
 
-  getToken(): string {
+  public getToken(): string {
     return this.token;
   }
 
-  isLoggedIn(): boolean {
+  public isUserLoggedIn(): boolean {
     this.loadToken();
-    if (this.token != null && this.token != '') {
+    if (this.token != null && this.token !== ''){
       if (this.jwtHelper.decodeToken(this.token).sub != null || '') {
         if (!this.jwtHelper.isTokenExpired(this.token)) {
           this.loggedInUsername = this.jwtHelper.decodeToken(this.token).sub;
@@ -69,4 +65,5 @@ export class AuthenticationService {
       return false;
     }
   }
+
 }

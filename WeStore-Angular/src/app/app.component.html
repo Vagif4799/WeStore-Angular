@@ -1,52 +1,61 @@
-<router-outlet></router-outlet>
-<!--<div class="page-wrapper">-->
+<!--<router-outlet></router-outlet>-->
 
-<!--  &lt;!&ndash; MENU SIDEBAR&ndash;&gt;-->
-<!--  <aside class="menu-sidebar d-none d-lg-block">-->
-<!--    <div class="logo">-->
-<!--      <a routerLink="/products">-->
-<!--        <img src="assets/images/WeStoreNewLogo.png" alt="e-commerce" class="img-fluid mb-2" style="width: 80%; height: 50%">-->
-<!--      </a>-->
-<!--    </div>-->
+<div *ngIf='getUrl()==="/cart-details" || getUrl()==="/products" || getUrl()==="/products/**" || getUrl()==="/search" || getUrl()==="/search/**" || getUrl()==="/category" || getUrl()==="/category/**"'>
+  <div class="page-wrapper">
 
-<!--    <app-product-category-menu></app-product-category-menu>-->
+    <!-- MENU SIDEBAR-->
+    <aside class="menu-sidebar d-none d-lg-block">
+      <div class="logo">
+        <a routerLink="/products">
+          <img src="assets/images/WeStoreNewLogo.png" alt="e-commerce" class="img-fluid mb-2" style="width: 80%; height: 50%">
+        </a>
+      </div>
 
-<!--  </aside>-->
-<!--  &lt;!&ndash; END MENU SIDEBAR&ndash;&gt;-->
+      <app-product-category-menu></app-product-category-menu>
 
-<!--  &lt;!&ndash; PAGE CONTAINER&ndash;&gt;-->
-<!--  <div class="page-container">-->
-<!--    &lt;!&ndash; HEADER DESKTOP&ndash;&gt;-->
-<!--    <header class="header-desktop">-->
-<!--      <div class="section-content section-content-p30">-->
-<!--        <div class="container-fluid">-->
-<!--          <div class="header-wrap">-->
+    </aside>
+    <!-- END MENU SIDEBAR-->
 
-<!--            <app-search></app-search>-->
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+      <!-- HEADER DESKTOP-->
+      <header class="header-desktop">
+        <div class="section-content section-content-p30">
+          <div class="container-fluid">
+            <div class="header-wrap">
 
-<!--            <app-cart-status></app-cart-status>-->
+              <app-search></app-search>
 
-<!--          </div>-->
-<!--          <div class="account-wrap"></div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </header>-->
-<!--    &lt;!&ndash; END HEADER DESKTOP&ndash;&gt;-->
+              <app-cart-status></app-cart-status>
 
-<!--    &lt;!&ndash; MAIN CONTENT&ndash;&gt;-->
+            </div>
+            <div class="account-wrap"></div>
+          </div>
+        </div>
+      </header>
+      <!-- END HEADER DESKTOP-->
 
-<!--    <router-outlet></router-outlet>-->
+      <!-- MAIN CONTENT-->
 
-<!--  </div>-->
-<!--</div>-->
+      <router-outlet></router-outlet>
 
-<!--&lt;!&ndash; END PAGE CONTAINER&ndash;&gt;-->
+    </div>
+  </div>
+
+  <!-- END PAGE CONTAINER-->
 
 
-<!--<footer>-->
-<!--  <ul>-->
-<!--    <li><a href="#">About Us</a></li>-->
-<!--    <li><a href="#">Contact Us</a></li>-->
-<!--    <li><a href="#">Help</a></li>-->
-<!--  </ul>-->
-<!--</footer>-->
+  <footer>
+    <ul>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Contact Us</a></li>
+      <li><a href="#">Help</a></li>
+    </ul>
+  </footer>
+</div>
+
+<div *ngIf='getUrl()==="/login" || getUrl()==="/register" || getUrl()==="/user/management" || getUrl()===""'>
+  <router-outlet></router-outlet>
+</div>
+
+<notifier-container></notifier-container>
