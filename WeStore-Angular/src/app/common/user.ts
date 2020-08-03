@@ -10,8 +10,8 @@ export class User {
   joinDate: Date;
   role: string;
   authorities: [];
-  isActive: boolean;
-  isNotLocked: boolean;
+  active: boolean;
+  notLocked: boolean;
   password: string;
 
   public User() {
@@ -21,8 +21,8 @@ export class User {
   this.email = '';
   this.role = '';
   this.authorities = [];
-  this.isActive = false;
-  this.isNotLocked = false;
+  this.active = false;
+  this.notLocked = false;
   this.password = '';
 }
 }

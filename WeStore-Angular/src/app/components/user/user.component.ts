@@ -5,6 +5,7 @@ import {UserService} from '../../services/user.service';
 import {NotificationService} from '../../services/notification.service';
 import {NotificationType} from '../../enum/notification-type.enum';
 import {HttpErrorResponse} from '@angular/common/http';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -18,6 +19,8 @@ export class UserComponent implements OnInit {
   public refreshing: boolean;
   public selectedUser: User;
   private subscriptions: Subscription[] = [];
+  public  fileName: string;
+  public profileImage: File;
 
   constructor(private userService: UserService, private notificationService: NotificationService) { }
 
@@ -51,7 +54,51 @@ export class UserComponent implements OnInit {
 
   onSelectUser(selectedUser: User): void{
     this.selectedUser = selectedUser;
-    document.getElementById('openUserInfo').click();
+    this.clickButton('openUserInfo');
+  }
+
+  onProfileImageChange(fileName: string, profileImage: File): void {
+    this.fileName = fileName;
+    this.profileImage = profileImage;
+  }
+
+  saveNewUser(): void {
+    this.clickButton('new-user-save');
+  }
+
+  onAddNewUser(userForm: NgForm): void{
+    const formData = this.userService.createUserFormData(null, userForm.value, this.profileImage);
+    this.subscriptions.push(
+      this.userService.addUser(formData).subscribe(
+        (response: User) => {
+          this.clickButton('new-user-close');
+          this.getUsers(false);
+          this.fileName = null;
+          this.profileImage = null;
+          userForm.reset();
+          this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName}'s info was successfully updated`);
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+        }
+      )
+    );
+  }
+
+  searchUsers(searchTerm: string): void {
+    const results: User[] = [];
+    for (const user of this.userService.getUsersFromLocalCache()) {
+      if (user.firstName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+          user.lastName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1  ||
+          user.userName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1  ||
+          user.userId.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+        results.push(user);
+      }
+    }
+    this.users = results;
+    if (results.length === 0 || !searchTerm) {
+      this.users = this.userService.getUsersFromLocalCache();
+    }
   }
 
   private sendNotification(notificationType: NotificationType, message: string): void {
@@ -60,6 +107,10 @@ export class UserComponent implements OnInit {
     } else {
       this.notificationService.notify(notificationType, 'An error occurred. Please try again.');
     }
+  }
+
+  private clickButton(buttonId: string): void {
+    document.getElementById(buttonId).click();
   }
 
 }
